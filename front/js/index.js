@@ -27,4 +27,5 @@ const fetchMeuble = async () => {
       }
     });
 };
+
 fetchMeuble();
