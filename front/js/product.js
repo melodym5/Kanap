@@ -4,7 +4,7 @@ const id = url.searchParams.get("id");
 const objectURL = "http://localhost:3000/api/products/" + id;
 
 
-// Récupération des données pour affichage d'un meuble //
+// Récupération des données pour affichage d'un meuble
 
 let fetchOneMeuble = function () {
   fetch(objectURL)
@@ -32,4 +32,33 @@ let fetchOneMeuble = function () {
       }
     });
 };
+
 fetchOneMeuble();
+
+// Valeurs
+function qtyValue() {
+  let qty = document.getElementById("quantity");
+  return qty.value;
+}
+
+function colorValue() {
+  let color = document.getElementById("colors");
+  return color.value;
+}
+
+// Ajout panier
+let btnAdd = document.getElementById("addToCart");
+btnAdd.addEventListener("click", () => {
+  let cart = JSON.parse(localStorage.getItem("cart"));
+  console.log(cart)
+  if (cart==null) {
+      cart=[]
+  }
+  let product = {}
+  product.id = id;
+  product.qty = qtyValue();
+  product.color = colorValue();
+  console.log(product)
+  cart.push(product)
+  localStorage.setItem("cart", JSON.stringify(cart))
+})
