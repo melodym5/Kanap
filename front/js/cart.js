@@ -6,25 +6,30 @@ function getCart() {
   return items;
 }
 
-function addToCart(productId, color, qty) {
-  if (qty <= 0 || color == "") {
+function addToCart(product) {
+  console.log (product)
+  if (product.qty <= 0 || product.color == "") {
     return;
   }
   let items = getCart();
+  console.log(items)
   if (items.length == 0) {
-    items = [[productId, color, qty]];
+    items = [product];
     console.log(items)
   } else {
     let found = false;
     for (let i = 0; i < items.length; i++) {
-      if (productId === items[i][0] && color === items[i][1]) {
+      let currentProduct = items [i];
+      console.log(product)
+      if (product.id === currentProduct.id && product.color === currentProduct.color) {
         found = true;
-        items[i][2] += qty;
+        currentProduct.qty += product.qty;
+        break
       }
     }
+    console.log(items)
     if (found == false) {
-      let item = [productId, color, qty];
-      items.push(item);
+      items.push(product);
     }
   }
   localStorage.setItem("cart", JSON.stringify(items));
@@ -52,10 +57,81 @@ function changeQuantity(id, color, qty) {
   for (let i = 0; i < items.length; i++) {
     let product = items[i];
     if (id === product.id && color === product.color) {
-      product.qty = qty;
+      product.qty = parseInt(qty);
       console.log(qty)
     }
     localStorage.setItem("cart", JSON.stringify(items));
     window.location.reload();
   }
+}
+
+// REGEXs
+
+const prenom = document.getElementById("firstName");
+const nom = document.getElementById("lastName");
+const ville = document.getElementById("city");
+const adresse = document.getElementById("address");
+const mail = document.getElementById("email");
+
+const emailErrorMsg = document.getElementById("emailErrorMsg");
+function validateEmail(mail) {
+  const regexMail =
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (regexMail.test(mail) == false) {
+    return false;
+  } else {
+    emailErrorMsg.innerHTML = null;
+    return true;
+  }
+}
+
+const regexName = /^[a-z][a-z '-.,]{1,31}$|^$/i;
+
+const firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+function validateFirstName(prenom) {
+  if (regexName.test(prenom) == false) {
+    return false;
+  } else {
+    firstNameErrorMsg.innerHTML = null;
+    return true;
+  }
+}
+
+const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+function validateLastName(nom) {
+  if (regexName.test(nom) == false) {
+    return false;
+  } else {
+    lastNameErrorMsg.innerHTML = null;
+    return true;
+  }
+}
+
+const cityErrorMsg = document.getElementById("cityErrorMsg");
+function validateCity(ville) {
+  if (regexName.test(ville) == false) {
+    return false;
+  } else {
+    cityErrorMsg.innerHTML = null;
+    return true;
+  }
+}
+
+function makeJsonData() {
+  let contact = {
+    firstName: prenom.value,
+    lastName: nom.value,
+    address: adresse.value,
+    city: ville.value,
+    email: mail.value,
+  };
+  let items = getCart();
+  let products = [];
+  console.log(items)
+
+  for (i = 0; i < items.length; i++) {
+    products.push(items[i].id);
+  }
+  let jsonData = JSON.stringify({ contact, products });
+  return jsonData;
 }

@@ -60,3 +60,52 @@ function fetchIdData() {
 
 fetchIdData();
 
+const postUrl = "http://localhost:3000/api/products/order";
+const orderButton = document.getElementById("order");
+orderButton.addEventListener("click", (e) => {
+  e.preventDefault(); 
+  // REGEXs permissions
+  let email = validateEmail(mail.value);
+  let firstName = validateFirstName(prenom.value);
+  let lastName = validateLastName(nom.value);
+  let city = validateCity(ville.value);
+  if (
+    email == false ||
+    firstName == false ||
+    lastName == false ||
+    city == false
+  ) {
+    if (email == false) {
+      emailErrorMsg.innerHTML = "Entrez une adresse e-mail valide.";
+    }
+    if (firstName == false) {
+      firstNameErrorMsg.innerHTML = "Entrez un prénom valide.";
+    }
+    if (lastName == false) {
+      lastNameErrorMsg.innerHTML = "Entrez un nom valide.";
+    }
+    if (city == false) {
+      cityErrorMsg.innerHTML = "Entrez une commune valide.";
+    }
+    return;
+  }
+  let jsonData = makeJsonData();
+  console.log(jsonData)
+  fetch(postUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: jsonData,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log (data)
+      localStorage.clear();
+      let confirmationUrl = "./confirmation.html?id=" + data.orderId;
+      window.location.href = confirmationUrl;
+    })
+    .catch(() => {
+      alert("Une erreur est survenue.");
+    });
+});

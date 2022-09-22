@@ -49,16 +49,14 @@ function colorValue() {
 // Ajout panier
 let btnAdd = document.getElementById("addToCart");
 btnAdd.addEventListener("click", () => {
-  let cart = JSON.parse(localStorage.getItem("cart"));
+  /*let cart = JSON.parse(localStorage.getItem("cart"));
   console.log(cart)
   if (cart==null) {
       cart=[]
-  }
+  }*/
   let product = {}
   product.id = id;
-  product.qty = qtyValue();
+  product.qty = parseInt(qtyValue());
   product.color = colorValue();
-  console.log(product)
-  cart.push(product)
-  localStorage.setItem("cart", JSON.stringify(cart))
+  addToCart(product);
 })
