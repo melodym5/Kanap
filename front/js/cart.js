@@ -7,27 +7,23 @@ function getCart() {
 }
 
 function addToCart(product) {
-  console.log (product)
   if (product.qty <= 0 || product.color == "") {
     return;
   }
   let items = getCart();
-  console.log(items)
+  
   if (items.length == 0) {
     items = [product];
-    console.log(items)
   } else {
     let found = false;
     for (let i = 0; i < items.length; i++) {
       let currentProduct = items [i];
-      console.log(product)
       if (product.id === currentProduct.id && product.color === currentProduct.color) {
         found = true;
         currentProduct.qty += product.qty;
         break
       }
     }
-    console.log(items)
     if (found == false) {
       items.push(product);
     }
@@ -58,7 +54,6 @@ function changeQuantity(id, color, qty) {
     let product = items[i];
     if (id === product.id && color === product.color) {
       product.qty = parseInt(qty);
-      console.log(qty)
     }
     localStorage.setItem("cart", JSON.stringify(items));
     window.location.reload();
@@ -127,7 +122,6 @@ function makeJsonData() {
   };
   let items = getCart();
   let products = [];
-  console.log(items)
 
   for (i = 0; i < items.length; i++) {
     products.push(items[i].id);

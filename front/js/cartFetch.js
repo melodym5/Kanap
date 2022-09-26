@@ -12,10 +12,8 @@ function fetchIdData() {
     if (localStorage.getItem("cart") != null) {
     for (let i = 0; i < items.length; i++) {
       let product = items [i];
-      console.log(product.id)
       let id = product.id;
       let color = product.color;
-      console.log(color)
       let url = "http://localhost:3000/api/products/" + id;
       fetch(url)
         .then((response) => response.json())
@@ -49,7 +47,6 @@ function fetchIdData() {
         });
       qty += parseInt(product.qty);
       document.getElementById("totalQuantity").innerHTML = qty;
-      console.log(qty)
     }
     } else {
       h1[0].innerHTML = `Votre panier est vide`;
@@ -90,7 +87,6 @@ orderButton.addEventListener("click", (e) => {
     return;
   }
   let jsonData = makeJsonData();
-  console.log(jsonData)
   fetch(postUrl, {
     method: "POST",
     headers: {
@@ -100,7 +96,6 @@ orderButton.addEventListener("click", (e) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log (data)
       localStorage.clear();
       let confirmationUrl = "./confirmation.html?id=" + data.orderId;
       window.location.href = confirmationUrl;

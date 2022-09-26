@@ -4,8 +4,6 @@ const fetchMeuble = async () => {
     await fetch("http://localhost:3000/api/products")
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-
       let productSection = document.getElementById("items");
 
       for (i = 0; i < data.length; i++) {

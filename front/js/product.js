@@ -10,8 +10,6 @@ let fetchOneMeuble = function () {
   fetch(objectURL)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-     
       let img = document.querySelector(".item__img");
       img.innerHTML = `<img src="${data.imageUrl}" alt="${data.altTxt}">`;
    
@@ -49,11 +47,6 @@ function colorValue() {
 // Ajout panier
 let btnAdd = document.getElementById("addToCart");
 btnAdd.addEventListener("click", () => {
-  /*let cart = JSON.parse(localStorage.getItem("cart"));
-  console.log(cart)
-  if (cart==null) {
-      cart=[]
-  }*/
   let product = {}
   product.id = id;
   product.qty = parseInt(qtyValue());
