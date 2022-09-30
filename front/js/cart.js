@@ -133,7 +133,8 @@ function validateLastName(nom) {
 
 const addressErrorMsg = document.getElementById("addressErrorMsg");
 function validateAddress(adresse) {
-  if (regexName.test(adresse) == false) {
+  const regexAdress =/^[a-zA-Z0-9\s,.'-]{3,}$/;
+  if (regexAdress.test(adresse) == false) {
     return false;
   } else {
     addressErrorMsg.innerHTML = null;
