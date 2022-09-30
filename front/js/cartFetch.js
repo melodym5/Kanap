@@ -65,11 +65,13 @@ orderButton.addEventListener("click", (e) => {
   let email = validateEmail(mail.value);
   let firstName = validateFirstName(prenom.value);
   let lastName = validateLastName(nom.value);
+  let address = validateAddress(adresse.value);
   let city = validateCity(ville.value);
   if (
     email == false ||
     firstName == false ||
     lastName == false ||
+    address == false ||
     city == false
   ) {
     if (email == false) {
@@ -80,6 +82,9 @@ orderButton.addEventListener("click", (e) => {
     }
     if (lastName == false) {
       lastNameErrorMsg.innerHTML = "Entrez un nom valide.";
+    }
+    if (address == false) {
+      addressErrorMsg.innerHTML = "Entrez une adresse valide.";
     }
     if (city == false) {
       cityErrorMsg.innerHTML = "Entrez une commune valide.";

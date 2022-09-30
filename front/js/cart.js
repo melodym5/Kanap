@@ -43,9 +43,29 @@ function deleteItem(id, color) {
       if (items.length === 0) {
         localStorage.removeItem('cart')
         }
-      window.location.reload();
+      //window.location.reload();
+      let articleDiv = document.querySelector(`article[data-id="${id}"][data-color="${color}"]`);
+      articleDiv.remove()
+      updateTotalPrice(items)
     }
   }
+}
+function updateTotalPrice(items) {
+  let totalPriceDiv = document.querySelector("#totalPrice");
+  let totalPrice = 0;
+  let totalQuantity = 0;
+  let totalQuantityDiv = document.querySelector("#totalQuantity");
+  for (let i=0; i < items.length; i++) {
+    let url = "http://localhost:3000/api/products/" + items[i].id;
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        totalPrice = totalPrice + data.price * items[i].qty
+        totalPriceDiv.innerHTML= totalPrice
+      })
+    totalQuantity = totalQuantity + items[i].qty
+  }
+  totalQuantityDiv.innerHTML = totalQuantity;
 }
 
 function changeQuantity(id, color, qty) {
@@ -56,7 +76,17 @@ function changeQuantity(id, color, qty) {
       product.qty = parseInt(qty);
     }
     localStorage.setItem("cart", JSON.stringify(items));
-    window.location.reload();
+    if (
+      product.qty < 1 ||
+      product.qty > 100 ||
+      product.qty === "" ||
+      product.qty === undefined
+    ) {
+      alert("Veuillez renseigner une quantité valide entre 1 et 100");
+    } else {
+    //window.location.reload();
+    updateTotalPrice(items)
+    }
   }
 }
 
@@ -80,8 +110,7 @@ function validateEmail(mail) {
   }
 }
 
-const regexName = /^[a-z][a-z '-.,]{1,31}$|^$/i;
-
+const regexName = /^[a-z][a-z '-.,]{1,31}$/;
 const firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
 function validateFirstName(prenom) {
   if (regexName.test(prenom) == false) {
@@ -98,6 +127,16 @@ function validateLastName(nom) {
     return false;
   } else {
     lastNameErrorMsg.innerHTML = null;
+    return true;
+  }
+}
+
+const addressErrorMsg = document.getElementById("addressErrorMsg");
+function validateAddress(adresse) {
+  if (regexName.test(adresse) == false) {
+    return false;
+  } else {
+    addressErrorMsg.innerHTML = null;
     return true;
   }
 }

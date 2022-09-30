@@ -51,5 +51,16 @@ btnAdd.addEventListener("click", () => {
   product.id = id;
   product.qty = parseInt(qtyValue());
   product.color = colorValue();
+  if (
+    product.qty < 1 ||
+    product.qty > 100 ||
+    product.qty === undefined ||
+    product.color === undefined ||
+    product.color === ""
+  ) {
+    alert("Pour valider le choix de cet article, veuillez renseigner une couleur et/ou une quantité valide entre 1 et 100");
+  } else { 
+  alert("Votre produit a été ajouté!");
   addToCart(product);
+  }
 })
